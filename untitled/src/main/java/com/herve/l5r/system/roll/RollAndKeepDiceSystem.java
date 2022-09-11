@@ -7,15 +7,27 @@ import com.herve.l5r.system.roll.model.competence.DicePool;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 public class RollAndKeepDiceSystem {
+
+    private final Supplier<Integer> diceRoll;
+
+
+    public RollAndKeepDiceSystem(int nbDiceFace) {
+        this.diceRoll = () -> new Random().nextInt(nbDiceFace) + 1;
+    }
+
+    RollAndKeepDiceSystem(Supplier<Integer> diceRoll) {
+        this.diceRoll = diceRoll;
+    }
 
     public RollResult rollAndKeep(RollAndKeepRequest rollAndKeepRequest) {
         DicePool dicePool = rollAndKeepRequest.dicePool();
         return IntStream.range(0, 10)
                         .takeWhile(i -> dicePool.diceToRoll() > i)
-                        .mapToObj(__ -> DiceResult.explodingDice(rollAndKeepRequest.explodeOn, rollAndKeepRequest.emphasis))
+                        .mapToObj(__ -> DiceResult.explodingDice(rollAndKeepRequest.explodeOn, rollAndKeepRequest.emphasis, diceRoll))
                         .collect(() -> new RollResult(dicePool), RollResult::addDiceResult, RollResult::aggregate);
     }
 
@@ -59,18 +71,17 @@ public class RollAndKeepDiceSystem {
             return new DiceResult(value);
         }
 
-        private static DiceResult explodingDice(int explosionValue, boolean emphasis) {
-            Random dice = new Random();
+        private static DiceResult explodingDice(int explosionValue, boolean emphasis, Supplier<Integer> diceRoll) {
             int result = 0;
             boolean needToExplode;
             do {
-                int rollResult = dice.nextInt(10) + 1;
+                int rollResult = diceRoll.get();
                 needToExplode = rollResult >= explosionValue;
                 result += rollResult;
             } while (needToExplode);
 
             if (result == 1 && emphasis) {
-                return explodingDice(explosionValue, false);
+                return explodingDice(explosionValue, false, diceRoll);
             }
             return DiceResult.of(result);
         }

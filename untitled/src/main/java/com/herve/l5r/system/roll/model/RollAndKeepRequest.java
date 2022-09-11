@@ -53,6 +53,10 @@ public class RollAndKeepRequest {
         default Emphasis withoutModifier() {
             return modifier(0);
         }
+
+        default RollAndKeepRequest build() {
+            return modifier(0).emphasis(false);
+        }
     }
 
     public interface Emphasis {
