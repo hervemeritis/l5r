@@ -51,6 +51,7 @@ public class RollAndKeepDiceSystem {
         }
 
         public int maxValue() {
+            System.out.println(this);
             if (diceResults.isEmpty()) {
                 return dicePoolUsed.modifier();
             }
@@ -62,6 +63,10 @@ public class RollAndKeepDiceSystem {
                               .takeWhile(__ -> counter.getAndIncrement() < dicePoolUsed.keptDice())
                               .sum() + dicePoolUsed.modifier();
 
+        }
+
+        public String toString() {
+            return dicePoolUsed.diceToRoll() + "k" + dicePoolUsed.keptDice() + " + " + dicePoolUsed.modifier();
         }
 
     }

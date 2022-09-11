@@ -4,6 +4,8 @@ import com.herve.l5r.system.model.CompetenceName;
 import com.herve.l5r.system.model.Emphasis;
 import com.herve.l5r.system.model.Samurai;
 
+import java.util.function.Function;
+
 public class IajutsuFrappeRollFactory implements CompetenceRollRequestFactory {
     @Override
     public CompetenceName associatedCompetenceName() {
@@ -16,12 +18,12 @@ public class IajutsuFrappeRollFactory implements CompetenceRollRequestFactory {
     }
 
     @Override
-    public int traitValueOf(Samurai samurai) {
-        return samurai.attributs.reflexe + 1;
+    public Function<Samurai, Integer> associatedTraitRetriever() {
+        return samurai -> samurai.attributs.reflexe + 1;
     }
 
     @Override
-    public int bonus(Samurai samurai) {
-        return samurai.attributs.vide;
+    public Function<Samurai, Integer> associatedBonusRetriever() {
+        return samurai -> samurai.attributs.vide;
     }
 }

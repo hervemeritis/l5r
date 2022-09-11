@@ -18,7 +18,7 @@ public class RollAndKeepRequest {
     }
 
     public static UnkeptDice builder() {
-        return unkeepRoll -> keepRoll -> diceExplosionvalue -> modifier -> emphasis ->
+        return unkeepRoll -> keepRoll -> modifier -> diceExplosionvalue -> emphasis ->
                 new RollAndKeepRequest(RollAndKeep.of(unkeepRoll, keepRoll, modifier), diceExplosionvalue, emphasis);
     }
 
@@ -29,34 +29,36 @@ public class RollAndKeepRequest {
     public interface UnkeptDice {
         DiceToKeep unkeptDice(int nbDice);
 
-        default Modifier dicePool(RollAndKeep rollAndKeep) {
+        default Explode dicePool(RollAndKeep rollAndKeep) {
             return modifier -> emphasis -> new RollAndKeepRequest(rollAndKeep, modifier, emphasis);
         }
     }
 
     public interface DiceToKeep {
-        Explode diceToKeep(int nbDice);
-
-        default Modifier defaultExplodingDiceToKeep(int nbDice) {
-            return diceToKeep(nbDice).explodeOn(10);
-        }
-    }
-
-    public interface Explode {
-        Modifier explodeOn(int minValue);
+        Modifier diceToKeep(int nbDice);
 
     }
-
     public interface Modifier {
-        Emphasis modifier(int modifier);
 
-        default Emphasis withoutModifier() {
+        Explode modifier(int modifier);
+        default Explode withoutModifier() {
             return modifier(0);
         }
 
+
+    }
+    public interface Explode {
+
+        Emphasis explodeOn(int minValue);
+
         default RollAndKeepRequest build() {
-            return modifier(0).emphasis(false);
+            return explodeOn(10).emphasis(false);
         }
+
+        default Emphasis defaultExplodingDice() {
+            return explodeOn(10);
+        }
+
     }
 
     public interface Emphasis {

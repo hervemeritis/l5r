@@ -1,7 +1,11 @@
 package com.herve.l5r.system.roll.model.competence;
 
 import com.herve.l5r.system.model.*;
+import com.herve.l5r.system.roll.model.RollAndKeep;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 public interface CompetenceRollRequestFactory {
 
@@ -9,33 +13,33 @@ public interface CompetenceRollRequestFactory {
 
     Emphasis associatedEmphasis();
 
-    int traitValueOf(Samurai samurai);
+    Function<Samurai, Integer> associatedTraitRetriever();
 
-    int bonus(Samurai samurai);
+    Function<Samurai, Integer> associatedBonusRetriever();
 
     default RollAndKeepRequest generate(Samurai samurai) {
-        return samurai.competences.stream()
-                                  .filter(competence -> competence.name.equals(associatedCompetenceName()))
-                                  .findAny()
-                                  .map(competence -> generateRoll(samurai, competence))
-                                  .orElseGet(() -> defaultRoll(samurai));
+        return Optional.ofNullable(samurai.competences.get(associatedCompetenceName()))
+                       .map(cpt -> generateRoll(samurai, cpt))
+                       .orElseGet(() -> defaultRoll(samurai));
+
     }
 
     default RollAndKeepRequest generateRoll(Samurai samurai, Competence competence) {
+        RollAndKeep rollAndKeep = RollAndKeep.of(competence.value, associatedTraitRetriever().apply(samurai), associatedBonusRetriever().apply(samurai))
+                                             .add(samurai.generateBonusToRollTo(competence));
         return RollAndKeepRequest.builder()
-                                 .unkeptDice(competence.value)
-                                 .diceToKeep(traitValueOf(samurai))
-                                 .explodeOn(10)
-                                 .modifier(bonus(samurai))
+                                 .dicePool(rollAndKeep)
+                                 .defaultExplodingDice()
                                  .emphasis(competence.emphasis.contains(associatedEmphasis()));
     }
 
     default RollAndKeepRequest defaultRoll(Samurai samurai) {
+        Integer trait = associatedTraitRetriever().apply(samurai);
         return RollAndKeepRequest.builder()
-                                 .unkeptDice(traitValueOf(samurai))
-                                 .diceToKeep(traitValueOf(samurai))
+                                 .unkeptDice(trait)
+                                 .diceToKeep(trait)
+                                 .modifier(associatedBonusRetriever().apply(samurai))
                                  .explodeOn(RollAndKeepRequest.NON_EXPLODING_VALUE)
-                                 .modifier(bonus(samurai))
                                  .withoutEmphasis();
     }
 }

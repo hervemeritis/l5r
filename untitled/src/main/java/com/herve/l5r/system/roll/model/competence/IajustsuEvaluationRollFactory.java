@@ -2,6 +2,8 @@ package com.herve.l5r.system.roll.model.competence;
 
 import com.herve.l5r.system.model.*;
 
+import java.util.function.Function;
+
 public class IajustsuEvaluationRollFactory implements CompetenceRollRequestFactory {
     private static final CompetenceName associatedCompetenceName = CompetenceName.IAJUSTSU;
     private static final Emphasis associatedEmphasis = Emphasis.EVALUATION;
@@ -17,12 +19,12 @@ public class IajustsuEvaluationRollFactory implements CompetenceRollRequestFacto
     }
 
     @Override
-    public int traitValueOf(Samurai samurai) {
-        return samurai.attributs.intuition;
+    public Function<Samurai, Integer> associatedTraitRetriever() {
+        return samurai -> samurai.attributs.intuition;
     }
 
     @Override
-    public int bonus(Samurai samurai) {
-        return 0;
+    public Function<Samurai, Integer> associatedBonusRetriever() {
+        return samurai -> 0;
     }
 }

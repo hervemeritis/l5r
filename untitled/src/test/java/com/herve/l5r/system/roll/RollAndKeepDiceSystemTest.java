@@ -20,7 +20,7 @@ class RollAndKeepDiceSystemTest {
         RollAndKeepRequest request = RollAndKeepRequest.builder()
                                                        .unkeptDice(3)
                                                        .diceToKeep(3)
-                                                       .explodeOn(10)
+                                                       .modifier(0)
                                                        .build();
 
         //When

@@ -1,6 +1,7 @@
 package com.herve.l5r.system;
 
 import com.herve.l5r.system.model.*;
+import com.herve.l5r.system.model.avantage.Virtuose;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystem;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.competence.IajustsuEvaluationRollFactory;
@@ -29,6 +30,7 @@ public class DuelTest {
                                 .family(Family.KAKITA)
                                 .name("INIRO")
                                 .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAJUSTSU).value(3).emphasis(Set.of(Emphasis.CONCENTRATION))))
+                                .avantages(Set.of(new Virtuose()))
                                 .build();
         IajustsuEvaluationRollFactory iajustsuEvaluationRollFactory = new IajustsuEvaluationRollFactory();
         IajutsuConcentrationRollFactory concentrationRollFactory = new IajutsuConcentrationRollFactory();

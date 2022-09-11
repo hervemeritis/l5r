@@ -8,7 +8,6 @@ public interface Avantage {
 
     String description();
     String name();
-    RollAndKeepRequest enhanceCompetenceRoll(RollAndKeepRequest request, Samurai samurai, Competence competence);
 
 
 }
