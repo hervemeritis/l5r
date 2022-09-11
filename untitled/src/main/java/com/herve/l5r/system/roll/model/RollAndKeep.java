@@ -23,19 +23,24 @@ class RollAndKeep implements DicePool {
         int computedUnkeptDice = unkept;
         int computedKeptDice = kept;
 
-        while(computedUnkeptDice + computedKeptDice > 10 && computedKeptDice != 0) {
-            computedUnkeptDice--;
-            if (computedUnkeptDice + computedKeptDice  > 10) {
-                computedUnkeptDice--;
-                computedKeptDice++;
-            }
+        if(diceToRoll() < keptDice()) {
+            computedKeptDice = diceToRoll();
+            computedUnkeptDice = 0;
+        }
+
+        if(diceToRoll() > 10 && unkept > 0) {
+            int flatKeptDice = Math.min(kept, 10);
+            int nbDiceMoreThan10 = unkept + flatKeptDice - 10;
+            computedUnkeptDice = kept < 10 ? unkept - (nbDiceMoreThan10 * 3) / 2 : 0;
+            computedKeptDice = kept + nbDiceMoreThan10 / 2;
         }
 
         int computedModifier = modifier;
-        if (computedUnkeptDice > 10) {
+        if (computedKeptDice > 10) {
             computedModifier += (computedKeptDice - 10) * 10;
-            computedUnkeptDice = 10;
+            computedKeptDice = 10;
         }
+
 
         return RollAndKeep.of(computedUnkeptDice, computedKeptDice, computedModifier);
     }
