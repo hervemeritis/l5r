@@ -1,7 +1,8 @@
 package com.herve.l5r.system.roll;
 
-import com.herve.l5r.system.model.Counter;
-import com.herve.l5r.system.model.RollAndKeepRequest;
+import com.herve.l5r.system.roll.model.Counter;
+import com.herve.l5r.system.roll.model.RollAndKeepRequest;
+import com.herve.l5r.system.roll.model.competence.DicePool;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,23 +12,22 @@ import java.util.stream.IntStream;
 public class RollAndKeepDiceSystem {
 
     public RollResult rollAndKeep(RollAndKeepRequest rollAndKeepRequest) {
+        DicePool dicePool = rollAndKeepRequest.dicePool();
         return IntStream.range(0, 10)
-                        .takeWhile(i -> rollAndKeepRequest.diceToRoll() > i)
+                        .takeWhile(i -> dicePool.diceToRoll() > i)
                         .mapToObj(__ -> DiceResult.explodingDice(rollAndKeepRequest.explodeOn, rollAndKeepRequest.emphasis))
-                        .collect(() -> new RollResult(rollAndKeepRequest.diceToKeep(), rollAndKeepRequest.modifier), RollResult::addDiceResult, RollResult::aggregate);
+                        .collect(() -> new RollResult(dicePool), RollResult::addDiceResult, RollResult::aggregate);
     }
 
     public static class RollResult {
 
-        private final int modifier;
+        private final DicePool dicePoolUsed;
         private final ArrayList<DiceResult> diceResults = new ArrayList<>();
 
-        private final int nbResultToKeep;
 
 
-        private RollResult(int nbResultToKeep, int modifier) {
-            this.modifier = modifier;
-            this.nbResultToKeep = nbResultToKeep;
+        private RollResult(DicePool dicePoolUsed) {
+            this.dicePoolUsed = dicePoolUsed;
         }
 
         private void addDiceResult(DiceResult diceResult) {
@@ -40,16 +40,15 @@ public class RollAndKeepDiceSystem {
 
         public int maxValue() {
             if (diceResults.isEmpty()) {
-                return modifier;
+                return dicePoolUsed.modifier();
             }
             final Counter counter = new Counter();
             return diceResults.stream()
                               .map(diceResult -> diceResult.value)
-                              .peek(dice -> System.out.println(dice))
                               .sorted(Comparator.reverseOrder())
                               .mapToInt(Integer::intValue)
-                              .takeWhile(__ -> counter.getAndIncrement() < nbResultToKeep)
-                              .sum() + modifier;
+                              .takeWhile(__ -> counter.getAndIncrement() < dicePoolUsed.keptDice())
+                              .sum() + dicePoolUsed.modifier();
 
         }
 

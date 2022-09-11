@@ -21,4 +21,8 @@ public class IajustsuEvaluationRollFactory implements CompetenceRollRequestFacto
         return samurai.attributs.intuition;
     }
 
+    @Override
+    public int bonus(Samurai samurai) {
+        return 0;
+    }
 }

@@ -2,7 +2,10 @@ package com.herve.l5r.system;
 
 import com.herve.l5r.system.model.*;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystem;
+import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.competence.IajustsuEvaluationRollFactory;
+import com.herve.l5r.system.roll.model.competence.IajutsuConcentrationRollFactory;
+import com.herve.l5r.system.roll.model.competence.IajutsuFrappeRollFactory;
 
 import java.util.Set;
 
@@ -25,10 +28,17 @@ public class Test {
                                                    .build())
                                 .family(Family.KAKITA)
                                 .name("INIRO")
-                                .competences(Set.of(Competence.builder().name(CompetenceName.IAJUSTSU).value(3).emphasis(Set.of(Emphasis.CONCENTRATION))))
+                                .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAJUSTSU).value(3).emphasis(Set.of(Emphasis.CONCENTRATION))))
                                 .build();
         IajustsuEvaluationRollFactory iajustsuEvaluationRollFactory = new IajustsuEvaluationRollFactory();
-        RollAndKeepRequest request = iajustsuEvaluationRollFactory.generate(kakita);
-        System.out.println(new RollAndKeepDiceSystem().rollAndKeep(request).maxValue());
+        IajutsuConcentrationRollFactory concentrationRollFactory = new IajutsuConcentrationRollFactory();
+        IajutsuFrappeRollFactory iajutsuFrappeRollFactory = new IajutsuFrappeRollFactory();
+        RollAndKeepRequest frappeRequest = iajutsuFrappeRollFactory.generate(kakita);
+        RollAndKeepRequest evaluationRequest = iajustsuEvaluationRollFactory.generate(kakita);
+        RollAndKeepRequest concentrationRequest = concentrationRollFactory.generate(kakita);
+        RollAndKeepDiceSystem rollAndKeepDiceSystem = new RollAndKeepDiceSystem();
+        System.out.println("Evaluation -> " + rollAndKeepDiceSystem.rollAndKeep(evaluationRequest).maxValue());
+        System.out.println("Concentration -> " + rollAndKeepDiceSystem.rollAndKeep(concentrationRequest).maxValue());
+        System.out.println("Frappe -> " + rollAndKeepDiceSystem.rollAndKeep(frappeRequest).maxValue());
     }
 }

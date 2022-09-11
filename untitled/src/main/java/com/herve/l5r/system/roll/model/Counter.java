@@ -1,4 +1,4 @@
-package com.herve.l5r.system.model;
+package com.herve.l5r.system.roll.model;
 
 public class Counter {
     private int count;
