@@ -1,13 +1,15 @@
 package com.herve.l5r.system;
 
 import com.herve.l5r.system.model.*;
-import com.herve.l5r.system.model.avantage.Virtuose;
+import com.herve.l5r.system.model.avantage.Avantage;
+import com.herve.l5r.system.model.competence.CompetenceTypeRoll;
+import com.herve.l5r.system.model.school.FamilySchool;
+import com.herve.l5r.system.model.school.School;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystem;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
-import com.herve.l5r.system.roll.model.competence.IajustsuEvaluationRollFactory;
-import com.herve.l5r.system.roll.model.competence.IajutsuConcentrationRollFactory;
-import com.herve.l5r.system.roll.model.competence.IajutsuFrappeRollFactory;
+import com.herve.l5r.system.roll.model.competence.CompetenceRollContext;
 
+import java.util.List;
 import java.util.Set;
 
 public class DuelTest {
@@ -30,14 +32,12 @@ public class DuelTest {
                                 .family(Family.KAKITA)
                                 .name("INIRO")
                                 .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAJUSTSU).value(3).emphasis(Set.of(Emphasis.CONCENTRATION))))
-                                .avantages(Set.of(new Virtuose()))
+                                .avantages(Set.of(Avantage.VIRTUOSE))
+                                .schools(List.of(School.of(FamilySchool.KAKITA_BUSHI_SCHOOL, 1)))
                                 .build();
-        IajustsuEvaluationRollFactory iajustsuEvaluationRollFactory = new IajustsuEvaluationRollFactory();
-        IajutsuConcentrationRollFactory concentrationRollFactory = new IajutsuConcentrationRollFactory();
-        IajutsuFrappeRollFactory iajutsuFrappeRollFactory = new IajutsuFrappeRollFactory();
-        RollAndKeepRequest frappeRequest = iajutsuFrappeRollFactory.generate(kakita);
-        RollAndKeepRequest evaluationRequest = iajustsuEvaluationRollFactory.generate(kakita);
-        RollAndKeepRequest concentrationRequest = concentrationRollFactory.generate(kakita);
+        RollAndKeepRequest evaluationRequest = CompetenceRollContext.of(CompetenceTypeRoll.IAJUTSU_EVALUATION, kakita).generateRollRequest();
+        RollAndKeepRequest concentrationRequest = CompetenceRollContext.of(CompetenceTypeRoll.IAJUTSU_CONCENTRATION, kakita).generateRollRequest();
+        RollAndKeepRequest frappeRequest = CompetenceRollContext.of(CompetenceTypeRoll.IAJUTSU_FRAPPE, kakita).generateRollRequest();
         RollAndKeepDiceSystem rollAndKeepDiceSystem = new RollAndKeepDiceSystem(10);
         System.out.println("Evaluation -> " + rollAndKeepDiceSystem.rollAndKeep(evaluationRequest).maxValue());
         System.out.println("Concentration -> " + rollAndKeepDiceSystem.rollAndKeep(concentrationRequest).maxValue());

@@ -1,7 +1,6 @@
 package com.herve.l5r.system.roll.model;
 
 
-import com.herve.l5r.system.roll.model.competence.DicePool;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

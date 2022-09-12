@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Queue;
 
 
-class RollAndKeepDiceSystemTest {
+class RollCharacteristicAndKeepDiceSystemTest {
 
     @Test
     public void should_launch_three_dice() {

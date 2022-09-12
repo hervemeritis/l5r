@@ -1,6 +1,8 @@
 package com.herve.l5r.system.model;
 
 import com.herve.l5r.system.model.avantage.Avantage;
+import com.herve.l5r.system.model.avantage.AvantageDefinition;
+import com.herve.l5r.system.model.school.School;
 
 import java.util.List;
 import java.util.Set;
@@ -15,6 +17,8 @@ public final class SamuraiBuilder {
     Set<Competence> competences;
 
     Set<Avantage> avantages;
+
+    List<School> schools;
 
     SamuraiBuilder() {
     }
@@ -56,6 +60,11 @@ public final class SamuraiBuilder {
 
     public SamuraiBuilder avantages(Set<Avantage> avantages) {
         this.avantages = avantages;
+        return this;
+    }
+
+    public SamuraiBuilder schools(List<School> schools) {
+        this.schools = schools;
         return this;
     }
 

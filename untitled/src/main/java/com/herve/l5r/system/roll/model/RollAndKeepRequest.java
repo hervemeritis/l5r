@@ -1,7 +1,5 @@
 package com.herve.l5r.system.roll.model;
 
-import com.herve.l5r.system.roll.model.competence.DicePool;
-
 public class RollAndKeepRequest {
     public static final int NON_EXPLODING_VALUE = 11;
 

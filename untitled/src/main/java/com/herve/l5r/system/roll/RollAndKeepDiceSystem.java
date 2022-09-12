@@ -2,7 +2,7 @@ package com.herve.l5r.system.roll;
 
 import com.herve.l5r.system.roll.model.Counter;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
-import com.herve.l5r.system.roll.model.competence.DicePool;
+import com.herve.l5r.system.roll.model.DicePool;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -37,7 +37,6 @@ public class RollAndKeepDiceSystem {
         private final ArrayList<DiceResult> diceResults = new ArrayList<>();
 
 
-
         private RollResult(DicePool dicePoolUsed) {
             this.dicePoolUsed = dicePoolUsed;
         }
@@ -51,18 +50,18 @@ public class RollAndKeepDiceSystem {
         }
 
         public int maxValue() {
-            System.out.println(this);
             if (diceResults.isEmpty()) {
                 return dicePoolUsed.modifier();
             }
             final Counter counter = new Counter();
+            System.out.println(dicePoolUsed.toString());
             return diceResults.stream()
                               .map(diceResult -> diceResult.value)
                               .sorted(Comparator.reverseOrder())
                               .mapToInt(Integer::intValue)
+                              .peek(dice -> System.out.println(dice))
                               .takeWhile(__ -> counter.getAndIncrement() < dicePoolUsed.keptDice())
                               .sum() + dicePoolUsed.modifier();
-
         }
 
         public String toString() {

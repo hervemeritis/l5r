@@ -42,4 +42,8 @@ public class Attribut {
     public int terre() {
         return Math.min(volonte, constitution);
     }
+
+    public int sumRing() {
+        return feu() + air() + eau() + terre() + vide;
+    }
 }

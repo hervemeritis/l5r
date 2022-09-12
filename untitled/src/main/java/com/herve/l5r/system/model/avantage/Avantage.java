@@ -1,13 +1,16 @@
 package com.herve.l5r.system.model.avantage;
 
-import com.herve.l5r.system.model.Competence;
-import com.herve.l5r.system.model.Samurai;
-import com.herve.l5r.system.roll.model.RollAndKeepRequest;
+public enum Avantage {
+    VIRTUOSE(new Virtuose());
 
-public interface Avantage {
-
-    String description();
-    String name();
+    private final AvantageDefinition definition;
 
 
+    Avantage(AvantageDefinition avantageDefinition) {
+        this.definition = avantageDefinition;
+    }
+
+    public AvantageDefinition definition() {
+        return definition;
+    }
 }

@@ -1,7 +1,5 @@
 package com.herve.l5r.system.roll.model;
 
-import com.herve.l5r.system.roll.model.competence.DicePool;
-
 public class RollAndKeep implements DicePool {
     public final int unkept;
     public final int kept;
@@ -61,6 +59,9 @@ public class RollAndKeep implements DicePool {
         return RollAndKeep.of(unkept + rollAndKeep.unkept, kept + rollAndKeep.kept, modifier + rollAndKeep.modifier);
     }
 
+    public String toString() {
+        return diceToRoll() + "K" + keptDice() + "+" + modifier();
+    }
     @Override
     public int keptDice() {
         return kept;
