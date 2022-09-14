@@ -1,7 +1,9 @@
 package com.herve.l5r.system.model;
 
 import com.herve.l5r.system.model.avantage.Avantage;
-import com.herve.l5r.system.model.avantage.Virtuose;
+import com.herve.l5r.system.model.competence.Competence;
+import com.herve.l5r.system.model.competence.CompetenceName;
+import com.herve.l5r.system.model.competence.Emphasis;
 
 import java.util.Set;
 
@@ -25,7 +27,7 @@ public class SamuraiFactory {
                                          .build())
                       .family(Family.KAKITA)
                       .name("INIRO")
-                      .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAJUSTSU).value(3).emphasis(Set.of(Emphasis.CONCENTRATION))))
+                      .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAIJUSTSU).value(3).emphasis(Set.of(Emphasis.CONCENTRATION))))
                       .avantages(Set.of(Avantage.VIRTUOSE))
                       .build();
     }
@@ -48,7 +50,7 @@ public class SamuraiFactory {
                                          .build())
                       .family(Family.KAKITA)
                       .name("INIRO")
-                      .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAJUSTSU).value(4).emphasis(Set.of(Emphasis.CONCENTRATION))))
+                      .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAIJUSTSU).value(4).emphasis(Set.of(Emphasis.CONCENTRATION))))
                       .avantages(Set.of(Avantage.VIRTUOSE))
                       .build();
     }
@@ -72,7 +74,7 @@ public class SamuraiFactory {
                                          .build())
                       .family(Family.KAKITA)
                       .name("INIRO")
-                      .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAJUSTSU).value(5).emphasis(Set.of(Emphasis.CONCENTRATION))))
+                      .competences(Set.of(Competence.schoolCompetence().name(CompetenceName.IAIJUSTSU).value(5).emphasis(Set.of(Emphasis.CONCENTRATION))))
                       .avantages(Set.of(Avantage.VIRTUOSE))
                       .build();
     }

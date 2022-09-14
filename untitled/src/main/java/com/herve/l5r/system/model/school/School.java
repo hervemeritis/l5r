@@ -16,8 +16,9 @@ public class School {
     }
 
     public Stream<RankSchool> availableRank() {
-        return familySchool.ranks.stream()
-                                 .takeWhile(rankSchool -> rankSchool.rank() <= rank);
+        return familySchool.ranks()
+                           .stream()
+                           .takeWhile(rankSchool -> rankSchool.rank() <= rank);
     }
 
 

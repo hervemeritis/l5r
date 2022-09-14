@@ -1,6 +1,6 @@
 package com.herve.l5r.system.model.avantage;
 
-import com.herve.l5r.system.model.Competence;
+import com.herve.l5r.system.model.competence.Competence;
 import com.herve.l5r.system.roll.model.competence.CompetenceModifier;
 import com.herve.l5r.system.roll.model.RollAndKeep;
 import com.herve.l5r.system.roll.model.competence.CompetenceRollContext;
@@ -16,9 +16,14 @@ public class Virtuose implements AvantageDefinition, CompetenceModifier {
         return "Virtuose (12)";
     }
 
+    @Override
+    public int cost() {
+        return 12;
+    }
+
 
     @Override
-    public RollAndKeep generateBonusToRollWith(CompetenceRollContext context) {
+    public RollAndKeep generateCompetenceBonusToRollWith(CompetenceRollContext context) {
         return context.competence()
                       .filter(Competence::isSchoolCompetence)
                       .map(__ -> RollAndKeep.of(1, 0, 0))

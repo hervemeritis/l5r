@@ -4,6 +4,7 @@ public interface AvantageDefinition {
 
     String description();
     String name();
+    int cost();
 
 
 }

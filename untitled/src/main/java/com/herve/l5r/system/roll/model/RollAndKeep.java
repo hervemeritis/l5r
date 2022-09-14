@@ -3,7 +3,6 @@ package com.herve.l5r.system.roll.model;
 public class RollAndKeep implements DicePool {
     public final int unkept;
     public final int kept;
-
     public final int modifier;
 
     private RollAndKeep(int unkept, int kept, int modifier) {
