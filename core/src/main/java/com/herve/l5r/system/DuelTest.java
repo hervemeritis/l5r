@@ -5,8 +5,8 @@ import com.herve.l5r.system.model.avantage.Avantage;
 import com.herve.l5r.system.model.competence.CompetenceName;
 import com.herve.l5r.system.model.school.FamilySchool;
 import com.herve.l5r.system.model.school.School;
-import com.herve.l5r.system.scene.iaijutsu.DuelResult;
-import com.herve.l5r.system.scene.iaijutsu.IaijutsuDuel;
+import com.herve.l5r.system.scene.combat.iaijutsu.DuelResult;
+import com.herve.l5r.system.scene.combat.iaijutsu.IaijutsuDuel;
 
 import java.util.List;
 import java.util.Set;
@@ -67,11 +67,12 @@ public class DuelTest {
 //        System.out.println("Evaluation -> " + rollAndKeepDiceSystem.rollAndKeep(evaluationRequest).maxValue());
 //        System.out.println("Concentration -> " + rollAndKeepDiceSystem.rollAndKeep(concentrationRequest).maxValue());
 //        System.out.println("Frappe -> " + rollAndKeepDiceSystem.rollAndKeep(frappeRequest).maxValue());
-        DuelResult frappe = IaijutsuDuel.between(kakita, kakita2)
+        DuelResult result = IaijutsuDuel.between(kakita, kakita2)
                                         .rollInitiative()
                                         .evaluation()
                                         .concentration()
                                         .frappe();
-        System.out.println(frappe.duelistWinner);
+        result.eventLogger().print();
+        System.out.println("Winner is " + result.duelistWinner);
     }
 }

@@ -8,15 +8,22 @@ public interface Weapon {
 
     RollAndKeep baseDamage();
 
-    default RollAndKeep damageFor(Samurai samurai) {
-        return baseDamage().add(RollAndKeep.of(samurai.attributs.force,0,0));
+    default boolean canUseVide() {
+        return false;
     }
 
-    default RollAndKeepRequest generateDamageRoll(Samurai samurai, int nd) {
-        RollAndKeep damageRoll = this.damageFor(samurai).add(RollAndKeep.of(nd, 0 , 0));
+    default RollAndKeep damageFor(Samurai samurai) {
+        return baseDamage().add(RollAndKeep.of(samurai.attributs.force, 0, 0));
+    }
+
+    default RollAndKeepRequest generateDamageRoll(Samurai samurai, int nd, RollAndKeep bonus) {
+        RollAndKeep damageRoll = this.damageFor(samurai)
+                                     .add(RollAndKeep.of(nd, 0, 0))
+                                     .add(bonus);
         return RollAndKeepRequest.builder()
                                  .dicePool(damageRoll)
                                  .defaultExplodingDice()
                                  .withoutEmphasis();
     }
+
 }

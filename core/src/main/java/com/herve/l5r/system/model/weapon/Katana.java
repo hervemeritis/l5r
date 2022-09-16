@@ -20,6 +20,11 @@ public class Katana implements Weapon {
                       .orElse(damage);
     }
 
+    @Override
+    public boolean canUseVide() {
+        return true;
+    }
+
     private enum Singleton {
         BASE_DAMAGE(RollAndKeep.of(1, 2, 0));
         private final RollAndKeep roll;

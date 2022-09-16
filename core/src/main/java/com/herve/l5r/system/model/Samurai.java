@@ -6,6 +6,7 @@ import com.herve.l5r.system.model.competence.CompetenceName;
 import com.herve.l5r.system.model.school.School;
 import com.herve.l5r.system.model.weapon.WeaponType;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystemFactory;
+import com.herve.l5r.system.roll.model.ComputedResult;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.competence.CompetenceModifier;
 import com.herve.l5r.system.roll.model.RollAndKeep;
@@ -72,7 +73,7 @@ public class Samurai implements CompetenceModifier {
         return attributs.sumRing() * 10;
     }
 
-    public int rollInitiative() {
+    public ComputedResult rollInitiative() {
         RollAndKeep rollAndKeep = RollAndKeep.of(rank(), attributs.reflexe, 0)
                                              .add(generateBonusInitiative());
         RollAndKeepRequest request = RollAndKeepRequest.builder()
@@ -99,4 +100,7 @@ public class Samurai implements CompetenceModifier {
         return Optional.ofNullable(competences.get(name));
     }
 
+    public String fullName() {
+        return family.familyName + " " + name;
+    }
 }

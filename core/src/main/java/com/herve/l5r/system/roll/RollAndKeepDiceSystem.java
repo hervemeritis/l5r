@@ -1,10 +1,12 @@
 package com.herve.l5r.system.roll;
 
+import com.herve.l5r.system.roll.model.ComputedResult;
 import com.herve.l5r.system.roll.model.Counter;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.DicePool;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -49,19 +51,18 @@ public class RollAndKeepDiceSystem {
             this.diceResults.addAll(rollResult.diceResults);
         }
 
-        public int maxValue() {
+        public ComputedResult maxValue() {
             if (diceResults.isEmpty()) {
-                return dicePoolUsed.modifier();
+                return new ComputedResult(new int[]{}, dicePoolUsed.toString(), dicePoolUsed.modifier());
             }
             final Counter counter = new Counter();
-            System.out.println(dicePoolUsed.toString());
-            return diceResults.stream()
-                              .map(diceResult -> diceResult.value)
-                              .sorted(Comparator.reverseOrder())
-                              .mapToInt(Integer::intValue)
-                              .peek(dice -> System.out.println(dice))
-                              .takeWhile(__ -> counter.getAndIncrement() < dicePoolUsed.keptDice())
-                              .sum() + dicePoolUsed.modifier();
+            int maxValue = diceResults.stream()
+                                      .map(diceResult -> diceResult.value)
+                                      .sorted(Comparator.reverseOrder())
+                                      .mapToInt(Integer::intValue)
+                                      .takeWhile(__ -> counter.getAndIncrement() < dicePoolUsed.keptDice())
+                                      .sum() + dicePoolUsed.modifier();
+            return new ComputedResult(diceResults.stream().mapToInt(DiceResult::value).toArray(), dicePoolUsed.toString(), maxValue);
         }
 
         public String toString() {

@@ -21,12 +21,17 @@ public enum WeaponType implements Weapon {
     }
 
     @Override
+    public boolean canUseVide() {
+        return weapon.canUseVide();
+    }
+
+    @Override
     public RollAndKeep damageFor(Samurai samurai) {
         return weapon.damageFor(samurai);
     }
 
     @Override
-    public RollAndKeepRequest generateDamageRoll(Samurai samurai, int nd) {
-        return weapon.generateDamageRoll(samurai, nd);
+    public RollAndKeepRequest generateDamageRoll(Samurai samurai, int nd, RollAndKeep bonus) {
+        return weapon.generateDamageRoll(samurai, nd, bonus);
     }
 }

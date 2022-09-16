@@ -24,17 +24,21 @@ public class Competence {
         this.samurai = samurai;
     }
 
-    public RollAndKeepRequest generateRoll(CompetenceRollContext context) {
-        CompetenceTypeRoll typeRoll = context.competenceTypeRoll;
-        Integer traitValue = typeRoll.characteristic.associatedTraitRetriever().apply(samurai);
-        Integer bonusValue = typeRoll.characteristic.associatedBonusRetriever().apply(samurai);
-        RollAndKeep rollAndKeep = RollAndKeep.of(value, traitValue, bonusValue)
-                                             .add(samurai.generateCompetenceBonusToRollWith(context))
-                                             .add(context.temporaryBonus());
+    public RollAndKeepRequest generateRollRequest(CompetenceRollContext context) {
+        RollAndKeep rollAndKeep = generateRoll(context);
         return RollAndKeepRequest.builder()
                                  .dicePool(rollAndKeep)
                                  .defaultExplodingDice()
-                                 .emphasis(emphasis.contains(typeRoll.emphasis));
+                                 .emphasis(emphasis.contains(context.competenceTypeRoll.emphasis));
+    }
+
+    public RollAndKeep generateRoll(CompetenceRollContext context) {
+        CompetenceTypeRoll typeRoll = context.competenceTypeRoll;
+        Integer traitValue = typeRoll.characteristic.associatedTraitRetriever().apply(samurai);
+        Integer bonusValue = typeRoll.characteristic.associatedBonusRetriever().apply(samurai);
+        return RollAndKeep.of(value, traitValue, bonusValue)
+                          .add(samurai.generateCompetenceBonusToRollWith(context))
+                          .add(context.temporaryBonus());
     }
 
     public boolean isSchoolCompetence() {

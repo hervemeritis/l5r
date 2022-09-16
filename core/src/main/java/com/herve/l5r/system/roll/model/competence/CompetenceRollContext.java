@@ -29,9 +29,14 @@ public class CompetenceRollContext extends RollContext {
     }
 
     public RollAndKeepRequest generateCompetenceRollRequest() {
-        return competence().map(competence -> competence.generateRoll(this))
+        return competence().map(competence -> competence.generateRollRequest(this))
                            .orElseGet(this::defaultRoll);
 
+    }
+
+    public RollAndKeep generateCompetenceRoll() {
+        return competence().map(competence -> competence.generateRoll(this))
+                           .orElseGet(this::defaultRollAndKeep);
     }
 
     public Optional<Competence> competence() {
@@ -47,12 +52,16 @@ public class CompetenceRollContext extends RollContext {
     }
 
     private RollAndKeepRequest defaultRoll() {
-        RollAndKeep roll = RollAndKeep.of(0, associatedSamuraiTraitValue(), associatedSamuraiBonus())
-                                      .add(temporaryBonus);
+        RollAndKeep roll = defaultRollAndKeep();
         return RollAndKeepRequest.builder()
                                  .dicePool(roll)
                                  .explodeOn(RollAndKeepRequest.NON_EXPLODING_VALUE)
                                  .withoutEmphasis();
+    }
+
+    private RollAndKeep defaultRollAndKeep() {
+        return RollAndKeep.of(0, associatedSamuraiTraitValue(), associatedSamuraiBonus())
+                          .add(temporaryBonus);
     }
 
     public RollAndKeep temporaryBonus() {

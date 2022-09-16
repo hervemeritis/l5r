@@ -20,12 +20,12 @@ public class RollAndKeep implements DicePool {
         int computedUnkeptDice = unkept;
         int computedKeptDice = kept;
 
-        if(diceToRoll() < keptDice()) {
+        if (diceToRoll() < keptDice()) {
             computedKeptDice = diceToRoll();
             computedUnkeptDice = 0;
         }
 
-        if(diceToRoll() > 10 && unkept > 0) {
+        if (diceToRoll() > 10 && unkept > 0) {
             int flatKeptDice = Math.min(kept, 10);
             int nbDiceMoreThan10 = unkept + flatKeptDice - 10;
             computedUnkeptDice = kept < 10 ? unkept - (nbDiceMoreThan10 * 3) / 2 : 0;
@@ -47,7 +47,11 @@ public class RollAndKeep implements DicePool {
     }
 
     public static RollAndKeep zero() {
-        return RollAndKeep.of(0,0,0);
+        return DefaultRoll.ZERO.roll;
+    }
+
+    public static RollAndKeep vide() {
+        return DefaultRoll.VIDE.roll;
     }
 
     public boolean isZero() {
@@ -61,6 +65,7 @@ public class RollAndKeep implements DicePool {
     public String toString() {
         return diceToRoll() + "K" + keptDice() + "+" + modifier();
     }
+
     @Override
     public int keptDice() {
         return kept;
@@ -73,5 +78,16 @@ public class RollAndKeep implements DicePool {
 
     public int diceToRoll() {
         return unkept + kept;
+    }
+
+    private enum DefaultRoll {
+        ZERO(RollAndKeep.of(0, 0, 0)),
+        VIDE(RollAndKeep.of(0, 1, 0));
+
+        private final RollAndKeep roll;
+
+        DefaultRoll(RollAndKeep roll) {
+            this.roll = roll;
+        }
     }
 }
