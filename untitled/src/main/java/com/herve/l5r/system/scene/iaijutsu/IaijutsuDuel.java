@@ -2,6 +2,7 @@ package com.herve.l5r.system.scene.iaijutsu;
 
 import com.herve.l5r.system.model.Samurai;
 import com.herve.l5r.system.model.competence.CompetenceTypeRoll;
+import com.herve.l5r.system.model.weapon.WeaponType;
 import com.herve.l5r.system.roll.model.RollAndKeep;
 import com.herve.l5r.system.scene.Protagonist;
 
@@ -14,8 +15,8 @@ public class IaijutsuDuel {
     }
 
     public static Initiative between(Samurai duelist1, Samurai duelist2) {
-        Protagonist opponent = Protagonist.of(duelist2);
-        Protagonist protagonist = Protagonist.of(duelist1).withOpponent(opponent);
+        Protagonist opponent = Protagonist.of(duelist2).draw(WeaponType.KATANA);
+        Protagonist protagonist = Protagonist.of(duelist1).withOpponent(opponent).draw(WeaponType.KATANA);
         opponent.withOpponent(protagonist);
         return new IaijutsuDuel(protagonist).initiative();
     }
@@ -66,7 +67,7 @@ public class IaijutsuDuel {
         public DuelResult frappe() {
             int oppositionResult = protagonist.resultDifferenceWithOpponent();
             if (oppositionResult == 0) {
-                return tie();
+                return kharmicStrike();
             } else {
                 Protagonist winnerConcentration = protagonist.resultDifferenceWithOpponent() > 0 ? protagonist : protagonist.opponent();
                 return resolveDuel(winnerConcentration);
@@ -74,19 +75,23 @@ public class IaijutsuDuel {
         }
 
         private DuelResult resolveDuel(Protagonist protagonist) {
-            if (protagonist.evaluate(CompetenceTypeRoll.IAJUTSU_FRAPPE) >= protagonist.opponent().TNToBeHit()) {
+            int ndGratuit = (protagonist.resultDifferenceWithOpponent() - 5) / 5;
+            if (protagonist.iaijutsuFrappe(0, ndGratuit)) {
                 return DuelResult.winner(protagonist.samurai);
-            } else if (protagonist.opponent().evaluate(CompetenceTypeRoll.IAJUTSU_FRAPPE) >= protagonist.TNToBeHit()) {
+            } else if (protagonist.opponent().iaijutsuFrappe(0,0)) {
                 return DuelResult.winner(protagonist.opponent().samurai);
             } else {
                 return DuelResult.tie();
             }
         }
 
-        private DuelResult tie() {
-            protagonist.evaluate(CompetenceTypeRoll.IAJUTSU_FRAPPE);
-            protagonist.opponent().evaluate(CompetenceTypeRoll.IAJUTSU_FRAPPE);
-            return DuelResult.tie();
+        private DuelResult kharmicStrike() {
+            boolean protagonistHasHit = protagonist.iaijutsuFrappe(0,0);
+            boolean opponentHasHit = protagonist.opponent().iaijutsuFrappe(0,0);
+            if(protagonistHasHit == opponentHasHit) {
+                return DuelResult.tie();
+            }
+            return protagonistHasHit ? DuelResult.winner(protagonist.samurai) : DuelResult.winner(protagonist.opponent().samurai);
         }
     }
 

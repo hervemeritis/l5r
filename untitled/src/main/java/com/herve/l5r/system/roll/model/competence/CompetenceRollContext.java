@@ -35,7 +35,7 @@ public class CompetenceRollContext extends RollContext {
     }
 
     public Optional<Competence> competence() {
-        return Optional.of(samurai.competences.get(competenceTypeRoll.associatedCompetence));
+        return samurai.retrieveCompetence(competenceTypeRoll.associatedCompetence);
     }
 
     private int associatedSamuraiTraitValue() {

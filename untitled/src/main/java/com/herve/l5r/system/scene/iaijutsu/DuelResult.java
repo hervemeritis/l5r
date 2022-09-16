@@ -3,7 +3,7 @@ package com.herve.l5r.system.scene.iaijutsu;
 import com.herve.l5r.system.model.Samurai;
 
 public class DuelResult {
-    private static final String TIE = "Egalité aucun Vainqueur";
+    private static final String TIE = "EgalitÃ© aucun Vainqueur";
     public final String duelistWinner;
 
     private DuelResult(String duelistWinner) {

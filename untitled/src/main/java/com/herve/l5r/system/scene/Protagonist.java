@@ -1,6 +1,7 @@
 package com.herve.l5r.system.scene;
 
 import com.herve.l5r.system.model.Samurai;
+import com.herve.l5r.system.model.weapon.WeaponType;
 import com.herve.l5r.system.model.competence.CompetenceTypeRoll;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystemFactory;
 import com.herve.l5r.system.roll.model.RollAndKeep;
@@ -17,6 +18,10 @@ public class Protagonist {
     private Protagonist opponent;
     private final Queue<RollAndKeep> temporaryBonus = new LinkedList<>();
 
+    private int wounds = 0;
+
+    private WeaponType weaponTypeDrawn = WeaponType.FIST;
+
     private Protagonist(Samurai samurai) {
         this.samurai = samurai;
     }
@@ -28,6 +33,12 @@ public class Protagonist {
     public Protagonist withOpponent(Protagonist protagonist) {
         this.opponent = protagonist;
         return this;
+    }
+
+    public Protagonist draw(WeaponType weaponType) {
+        this.weaponTypeDrawn = weaponType;
+        return this;
+
     }
 
     public int initiative() {
@@ -66,6 +77,19 @@ public class Protagonist {
     }
 
     public int TNToBeHit() {
-        return 5 + samurai.attributs.reflexe * 5;
+        return samurai.baseTNToBeHit();
+    }
+
+    public boolean iaijutsuFrappe(int nd, int ndGratuit) {
+        if(evaluate(CompetenceTypeRoll.IAJUTSU_FRAPPE) < opponent.TNToBeHit() + 5 * nd) {
+            return false;
+        }
+        applyDamage(nd + ndGratuit);
+        return true;
+    }
+
+    private void applyDamage(int nd) {
+        int damage = RollAndKeepDiceSystemFactory.D10.system.rollAndKeep(weaponTypeDrawn.generateDamageRoll(samurai, nd)).maxValue();
+        opponent().wounds += damage;
     }
 }

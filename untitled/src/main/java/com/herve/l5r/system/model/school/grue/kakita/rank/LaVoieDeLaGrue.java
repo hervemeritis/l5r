@@ -32,9 +32,9 @@ public class LaVoieDeLaGrue implements RankSchool, CompetenceModifier, Initiativ
 
     @Override
     public RollAndKeep generateInitiativeBonus(Samurai samurai) {
-        Integer iaijutsuValue = Optional.ofNullable(samurai.competences.get(CompetenceName.IAIJUSTSU))
-                                        .map(Competence::value)
-                                        .orElse(0);
+        Integer iaijutsuValue = samurai.retrieveCompetence(CompetenceName.IAIJUSTSU)
+                                       .map(Competence::value)
+                                       .orElse(0);
         return RollAndKeep.of(0, 0, iaijutsuValue * 2);
     }
 }

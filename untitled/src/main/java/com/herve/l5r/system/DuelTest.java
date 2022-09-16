@@ -35,6 +35,7 @@ public class DuelTest {
                                 .schools(List.of(School.of(FamilySchool.KAKITA_BUSHI_SCHOOL, 1)))
                                 .build();
         kakita.competences.get(CompetenceName.IAIJUSTSU).incrementValue(2);
+        kakita.retrieveCompetence(CompetenceName.KENJUTSU).ifPresent(cpt -> cpt.incrementValue(2));
         Samurai kakita2 = Samurai.builder()
                                  .statut(1.0d)
                                  .honneur(6.5d)
@@ -57,6 +58,7 @@ public class DuelTest {
                                  .schools(List.of(School.of(FamilySchool.KAKITA_BUSHI_SCHOOL, 1)))
                                  .build();
         kakita2.competences.get(CompetenceName.IAIJUSTSU).incrementValue(2);
+        kakita2.retrieveCompetence(CompetenceName.KENJUTSU).ifPresent(cpt -> cpt.incrementValue(2));
 //        System.out.println(kakita.rollInitiative());
 //        RollAndKeepRequest evaluationRequest = CompetenceRollContext.of(CompetenceTypeRoll.IAJUTSU_EVALUATION, kakita).generateCompetenceRollRequest();
 //        RollAndKeepRequest concentrationRequest = CompetenceRollContext.of(CompetenceTypeRoll.IAJUTSU_CONCENTRATION, kakita).generateCompetenceRollRequest();

@@ -8,4 +8,5 @@ public enum CompetenceName {
     ETIQUETTE,
     CEREONIE_DU_THE,
     COURTISAN;
+
 }

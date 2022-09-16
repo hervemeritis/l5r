@@ -4,17 +4,16 @@ import com.herve.l5r.system.model.avantage.Avantage;
 import com.herve.l5r.system.model.competence.Competence;
 import com.herve.l5r.system.model.competence.CompetenceName;
 import com.herve.l5r.system.model.school.School;
+import com.herve.l5r.system.model.weapon.WeaponType;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystemFactory;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.competence.CompetenceModifier;
 import com.herve.l5r.system.roll.model.RollAndKeep;
 import com.herve.l5r.system.roll.model.competence.CompetenceRollContext;
+import com.herve.l5r.system.roll.model.damage.DamageModifier;
 import com.herve.l5r.system.roll.model.initiative.InitiativeModifier;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Samurai implements CompetenceModifier {
@@ -38,7 +37,7 @@ public class Samurai implements CompetenceModifier {
         this.gloire = builder.gloire;
         this.statut = builder.statut;
         this.competences = builder.competences.stream()
-                .map(cptBuilder -> cptBuilder.samurai(this))
+                                              .map(cptBuilder -> cptBuilder.samurai(this))
                                               .collect(() -> new EnumMap<>(CompetenceName.class), (map, cpt) -> map.put(cpt.name, cpt), EnumMap::putAll);
         this.avantages = Set.copyOf(builder.avantages);
         this.schools = builder.schools;
@@ -91,4 +90,13 @@ public class Samurai implements CompetenceModifier {
                       .map(initiativeModifier -> initiativeModifier.generateInitiativeBonus(this))
                       .reduce(RollAndKeep.zero(), RollAndKeep::add);
     }
+
+    public int baseTNToBeHit() {
+        return 5 + 5 * attributs.reflexe;
+    }
+
+    public Optional<Competence> retrieveCompetence(CompetenceName name) {
+        return Optional.ofNullable(competences.get(name));
+    }
+
 }
