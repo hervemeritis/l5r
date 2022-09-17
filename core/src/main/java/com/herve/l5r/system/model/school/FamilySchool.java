@@ -2,13 +2,15 @@ package com.herve.l5r.system.model.school;
 
 import com.herve.l5r.system.model.competence.CompetenceName;
 import com.herve.l5r.system.model.competence.Emphasis;
+import com.herve.l5r.system.model.school.dragon.mirumoto.MirumotoBushiSchool;
 import com.herve.l5r.system.model.school.grue.kakita.KakitaBushiSchool;
 
 import java.util.Set;
 import java.util.function.Function;
 
 public enum FamilySchool implements SchoolDefintion {
-    KAKITA_BUSHI_SCHOOL(new KakitaBushiSchool());
+    KAKITA_BUSHI_SCHOOL(new KakitaBushiSchool()),
+    MIRUMOTO_BUSHI_SCHOOl(new MirumotoBushiSchool());
 
     public final SchoolDefintion schoolDefintion;
 

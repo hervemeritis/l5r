@@ -6,6 +6,7 @@ import com.herve.l5r.system.model.Samurai;
 import com.herve.l5r.system.model.avantage.Avantage;
 import com.herve.l5r.system.model.competence.Competence;
 import com.herve.l5r.system.model.competence.CompetenceName;
+import com.herve.l5r.system.model.competence.Emphasis;
 import com.herve.l5r.system.model.school.FamilySchool;
 import com.herve.l5r.system.model.school.School;
 
@@ -38,6 +39,7 @@ public class SamuraiFactory {
                                 .build();
         kakita.retrieveCompetence(CompetenceName.IAIJUSTSU).ifPresent(cpt -> cpt.incrementValue(2));
         kakita.retrieveCompetence(CompetenceName.KENJUTSU).ifPresent(cpt -> cpt.incrementValue(2));
+        kakita.retrieveCompetence(CompetenceName.KENJUTSU).ifPresent(cpt -> cpt.addEmphasis(Emphasis.KATANA));
         kakita.retrieveCompetence(CompetenceName.ETIQUETTE).ifPresent(Competence::incrementValue);
         kakita.add(Competence.schoolCompetence().name(CompetenceName.COURTISAN).value(1).noEmphasis().samurai(kakita));
         kakita.add(Competence.builder().name(CompetenceName.EQUITATION).value(1).noEmphasis().samurai(kakita));

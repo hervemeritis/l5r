@@ -12,7 +12,7 @@ public class Competence {
     public final CompetenceName name;
     private int value;
 
-    public final Set<Emphasis> emphasis;
+    private final Set<Emphasis> emphasis;
     private final boolean schoolCompetence;
 
     private final Samurai samurai;
@@ -56,6 +56,10 @@ public class Competence {
 
     public void incrementValue(int increment) {
         value += increment;
+    }
+
+    public void addEmphasis(Emphasis emphasis) {
+        this.emphasis.add(emphasis);
     }
 
     public static Name builder() {

@@ -11,6 +11,10 @@ public enum CompetenceName {
     POESIE,
     CONN_BUSHIDO,
     EQUITATION,
-    CONN_HERALDIQUE;
+    CONN_HERALDIQUE,
+    DEFENSE,
+    CONN_SHUGENJA,
+    MEDITATION,
+    THEOLOGY;
 
 }
