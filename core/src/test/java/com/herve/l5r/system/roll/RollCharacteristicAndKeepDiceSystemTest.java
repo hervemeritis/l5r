@@ -27,7 +27,7 @@ class RollCharacteristicAndKeepDiceSystemTest {
         RollAndKeepDiceSystem.RollResult rollResult = rollAndKeepDiceSystem.rollAndKeep(request);
 
         //Then
-        Assertions.assertThat(rollResult.maxValue()).isEqualTo(28);
+        Assertions.assertThat(rollResult.maxValue().result()).isEqualTo(28);
     }
 
 }

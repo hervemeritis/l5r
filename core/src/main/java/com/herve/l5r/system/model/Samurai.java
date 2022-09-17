@@ -5,14 +5,12 @@ import com.herve.l5r.system.model.competence.Competence;
 import com.herve.l5r.system.model.competence.CompetenceName;
 import com.herve.l5r.system.model.school.FamilySchool;
 import com.herve.l5r.system.model.school.School;
-import com.herve.l5r.system.model.weapon.WeaponType;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystemFactory;
 import com.herve.l5r.system.roll.model.ComputedResult;
+import com.herve.l5r.system.roll.model.RollAndKeep;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.competence.CompetenceModifier;
-import com.herve.l5r.system.roll.model.RollAndKeep;
 import com.herve.l5r.system.roll.model.competence.CompetenceRollContext;
-import com.herve.l5r.system.roll.model.damage.DamageModifier;
 import com.herve.l5r.system.roll.model.initiative.InitiativeModifier;
 
 import java.util.*;
