@@ -1,5 +1,6 @@
 package com.herve.l5r.system.model.avantage;
 
+import com.herve.l5r.system.model.Samurai;
 import com.herve.l5r.system.model.competence.Competence;
 import com.herve.l5r.system.roll.model.competence.CompetenceModifier;
 import com.herve.l5r.system.roll.model.RollAndKeep;
@@ -17,7 +18,7 @@ public class Virtuose implements AvantageDefinition, CompetenceModifier {
     }
 
     @Override
-    public int cost() {
+    public int cost(Samurai samurai) {
         return 12;
     }
 

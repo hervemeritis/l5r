@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 public class School {
     public final int rank;
-    private final FamilySchool familySchool;
+    public final FamilySchool familySchool;
 
     private School(int rank, FamilySchool familySchool) {
         this.rank = rank;

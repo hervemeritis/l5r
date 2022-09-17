@@ -7,6 +7,10 @@ public enum CompetenceName {
     SINCERITE,
     ETIQUETTE,
     CEREONIE_DU_THE,
-    COURTISAN;
+    COURTISAN,
+    POESIE,
+    CONN_BUSHIDO,
+    EQUITATION,
+    CONN_HERALDIQUE;
 
 }

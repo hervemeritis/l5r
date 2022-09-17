@@ -5,6 +5,7 @@ import com.herve.l5r.system.roll.model.RollAndKeep;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.competence.CompetenceRollContext;
 
+import java.util.Collections;
 import java.util.Set;
 
 public class Competence {
@@ -77,6 +78,10 @@ public class Competence {
 
     public interface Specialization {
         LinkedSamurai emphasis(Set<Emphasis> emphasis);
+
+        default LinkedSamurai noEmphasis() {
+            return emphasis(Collections.emptySet());
+        }
     }
 
     public interface LinkedSamurai {

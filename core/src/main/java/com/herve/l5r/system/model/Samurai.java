@@ -3,6 +3,7 @@ package com.herve.l5r.system.model;
 import com.herve.l5r.system.model.avantage.Avantage;
 import com.herve.l5r.system.model.competence.Competence;
 import com.herve.l5r.system.model.competence.CompetenceName;
+import com.herve.l5r.system.model.school.FamilySchool;
 import com.herve.l5r.system.model.school.School;
 import com.herve.l5r.system.model.weapon.WeaponType;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystemFactory;
@@ -15,6 +16,7 @@ import com.herve.l5r.system.roll.model.damage.DamageModifier;
 import com.herve.l5r.system.roll.model.initiative.InitiativeModifier;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Samurai implements CompetenceModifier {
@@ -24,11 +26,11 @@ public class Samurai implements CompetenceModifier {
     public final double honneur;
     public final double gloire;
     public final double statut;
-    public final Map<CompetenceName, Competence> competences;
+    private final Map<CompetenceName, Competence> competences;
 
-    public final Set<Avantage> avantages;
+    private final Set<Avantage> avantages;
 
-    public final List<School> schools;
+    private final List<School> schools;
 
     Samurai(SamuraiBuilder builder) {
         this.family = builder.family;
@@ -100,7 +102,18 @@ public class Samurai implements CompetenceModifier {
         return Optional.ofNullable(competences.get(name));
     }
 
+    public void add(Competence competence) {
+        competences.put(competence.name, competence);
+    }
+
     public String fullName() {
         return family.familyName + " " + name;
+    }
+
+    public Set<FamilySchool> knownFamilySchool() {
+        return schools.stream()
+                      .map(school -> school.familySchool)
+                      .collect(Collectors.toSet());
+
     }
 }

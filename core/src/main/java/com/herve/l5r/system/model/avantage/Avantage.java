@@ -1,7 +1,8 @@
 package com.herve.l5r.system.model.avantage;
 
 public enum Avantage {
-    VIRTUOSE(new Virtuose());
+    VIRTUOSE(new Virtuose()),
+    FORCE_DE_LA_TERRE(new ForceDeLaTerre());
 
     private final AvantageDefinition definition;
 
