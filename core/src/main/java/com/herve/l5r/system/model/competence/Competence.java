@@ -6,13 +6,14 @@ import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.competence.CompetenceRollContext;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Competence {
     public final CompetenceName name;
     private int value;
 
-    private final Set<Emphasis> emphasis;
+    private Set<Emphasis> emphasis;
     private final boolean schoolCompetence;
 
     private final Samurai samurai;
@@ -59,7 +60,9 @@ public class Competence {
     }
 
     public void addEmphasis(Emphasis emphasis) {
-        this.emphasis.add(emphasis);
+        Set<Emphasis> newEmphasis = new HashSet<>(this.emphasis);
+        newEmphasis.add(emphasis);
+        this.emphasis = newEmphasis;
     }
 
     public static Name builder() {

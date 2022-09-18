@@ -11,6 +11,7 @@ import com.herve.l5r.system.roll.model.RollAndKeep;
 import com.herve.l5r.system.roll.model.RollAndKeepRequest;
 import com.herve.l5r.system.roll.model.competence.CompetenceModifier;
 import com.herve.l5r.system.roll.model.competence.CompetenceRollContext;
+import com.herve.l5r.system.roll.model.damage.DamageModifier;
 import com.herve.l5r.system.roll.model.initiative.InitiativeModifier;
 
 import java.util.*;
@@ -58,8 +59,11 @@ public class Samurai implements CompetenceModifier {
     }
 
     public int rank() {
-        int reputation = computeReputationFromCompetence() + computeReputationFromRing();
-        return reputation > 149 ? (reputation - 150) / 25 + 2 : 1;
+        return reputation() > 149 ? (reputation() - 150) / 25 + 2 : 1;
+    }
+
+    public int reputation() {
+        return computeReputationFromCompetence() + computeReputationFromRing();
     }
 
     private int computeReputationFromCompetence() {
@@ -113,5 +117,14 @@ public class Samurai implements CompetenceModifier {
                       .map(school -> school.familySchool)
                       .collect(Collectors.toSet());
 
+    }
+
+    public RollAndKeep generateDamageBonus() {
+        RollAndKeep bonus = Stream.concat(schools.stream().flatMap(School::availableRank), avantages.stream().map(Avantage::definition))
+                                  .filter(DamageModifier.class::isInstance)
+                                  .map(DamageModifier.class::cast)
+                                  .map(damageModifier -> damageModifier.generateDamageBonus(this))
+                                  .reduce(RollAndKeep.zero(), RollAndKeep::add);
+        return RollAndKeep.of(attributs.force, 0, 0).add(bonus);
     }
 }

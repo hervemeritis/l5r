@@ -13,7 +13,7 @@ public interface Weapon {
     }
 
     default RollAndKeep damageFor(Samurai samurai) {
-        return baseDamage().add(RollAndKeep.of(samurai.attributs.force, 0, 0));
+        return baseDamage().add(samurai.generateDamageBonus());
     }
 
     default RollAndKeepRequest generateDamageRoll(Samurai samurai, int nd, RollAndKeep bonus) {

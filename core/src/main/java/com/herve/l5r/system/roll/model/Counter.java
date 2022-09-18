@@ -6,4 +6,8 @@ public class Counter {
     public int getAndIncrement() {
         return count++;
     }
+
+    public int value() {
+        return count;
+    }
 }

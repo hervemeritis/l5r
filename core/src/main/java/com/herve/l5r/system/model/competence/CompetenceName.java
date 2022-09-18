@@ -15,6 +15,13 @@ public enum CompetenceName {
     DEFENSE,
     CONN_SHUGENJA,
     MEDITATION,
-    THEOLOGY;
+    THEOLOGY,
+    CALLIGRAPHIE,
+    ATHLETISME,
+    ENQUETE,
+    BATAILLE,
+    JIUJITSU,
+    CONN_HISTOIRE,
+    LANCE;
 
 }

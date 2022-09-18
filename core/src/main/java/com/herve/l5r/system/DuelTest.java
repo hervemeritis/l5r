@@ -6,12 +6,12 @@ import com.herve.l5r.system.scene.combat.iaijutsu.IaijutsuDuel;
 
 public class DuelTest {
     public static void main(String[] args) {
-        DuelResult result = IaijutsuDuel.between(SamuraiFactory.kakita(), SamuraiFactory.kakita())
+        DuelResult result = IaijutsuDuel.between(SamuraiFactory.mirumoto(), SamuraiFactory.matsu())
                                         .rollInitiative()
                                         .evaluation()
                                         .concentration()
                                         .frappe();
         result.eventLogger().print();
-        System.out.println("Winner is " + result.duelistWinner);
+        System.out.println(result.duelistWinner);
     }
 }
