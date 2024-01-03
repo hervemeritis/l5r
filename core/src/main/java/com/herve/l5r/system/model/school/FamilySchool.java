@@ -21,6 +21,11 @@ public enum FamilySchool implements SchoolDefintion {
     }
 
     @Override
+    public String schoolName() {
+        return schoolDefintion.schoolName();
+    }
+
+    @Override
     public TypeSchool type() {
         return schoolDefintion.type();
     }
@@ -39,4 +44,6 @@ public enum FamilySchool implements SchoolDefintion {
     public Function<CompetenceName, Set<Emphasis>> baseEmphasis() {
         return schoolDefintion.baseEmphasis();
     }
+
+
 }

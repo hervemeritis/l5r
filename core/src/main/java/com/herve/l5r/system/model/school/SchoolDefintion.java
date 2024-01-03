@@ -4,13 +4,12 @@ import com.herve.l5r.system.model.competence.Competence;
 import com.herve.l5r.system.model.competence.CompetenceName;
 import com.herve.l5r.system.model.competence.Emphasis;
 
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public interface SchoolDefintion {
-    String name();
+    String schoolName();
 
     TypeSchool type();
 

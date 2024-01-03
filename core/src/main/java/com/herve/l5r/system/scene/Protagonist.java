@@ -1,13 +1,7 @@
 package com.herve.l5r.system.scene;
 
-import com.herve.l5r.system.model.Attribut;
-import com.herve.l5r.system.model.Family;
 import com.herve.l5r.system.model.Samurai;
-import com.herve.l5r.system.model.avantage.Avantage;
-import com.herve.l5r.system.model.competence.CompetenceName;
 import com.herve.l5r.system.model.competence.CompetenceTypeRoll;
-import com.herve.l5r.system.model.school.FamilySchool;
-import com.herve.l5r.system.model.school.School;
 import com.herve.l5r.system.model.weapon.WeaponType;
 import com.herve.l5r.system.roll.RollAndKeepDiceSystemFactory;
 import com.herve.l5r.system.roll.model.ComputedResult;
@@ -18,13 +12,15 @@ import com.herve.l5r.system.roll.model.competence.CompetenceRollContext;
 import com.herve.l5r.system.scene.combat.model.FrappeResult;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.Set;
+import java.util.UUID;
 
 public class Protagonist {
+
+    public final UUID id = UUID.randomUUID();
+
     public final Samurai samurai;
-    private ComputedResult initiative;
+    private ComputedResult actualInitiative;
     private ComputedResult lastResult;
     private Protagonist opponent;
     private final Queue<RollAndKeep> temporaryBonus = new LinkedList<>();
@@ -54,47 +50,68 @@ public class Protagonist {
 
     }
 
+    
     public ComputedResult initiative() {
-        return initiative;
+        return actualInitiative;
     }
 
+    
     public ComputedResult lastResult() {
         return lastResult;
     }
 
+    
     public Protagonist opponent() {
         return opponent;
     }
 
+    
     public ComputedResult computeInitiative() {
-        initiative = samurai.rollInitiative();
-        return initiative;
+        actualInitiative = samurai.rollInitiative();
+        return actualInitiative;
     }
 
+    
     public ComputedResult evaluate(CompetenceTypeRoll typeRoll) {
         return evaluate(typeRoll, RollAndKeep.zero());
     }
 
-    private ComputedResult evaluate(CompetenceTypeRoll typeRoll, RollAndKeep bonus) {
-        while (!temporaryBonus.isEmpty()) {
-            bonus = bonus.add(temporaryBonus.remove());
-        }
-        RollAndKeepRequest request = CompetenceRollContext.of(typeRoll, samurai).withTemporaryBonus(bonus).generateCompetenceRollRequest();
-        ComputedResult computedResult = RollAndKeepDiceSystemFactory.D10.system.rollAndKeep(request).maxValue();
-        lastResult = computedResult;
-        return computedResult;
-    }
-
+    
     public int resultDifferenceWithOpponent() {
         return lastResult.result() - opponent.lastResult.result();
     }
 
+    
     public void addTemporaryBonus(RollAndKeep rollAndKeep) {
         temporaryBonus.offer(rollAndKeep);
     }
 
+    
     public int TNToBeHit() {
         return samurai.baseTNToBeHit();
+    }
+
+    
+    public ComputedResult evaluate(CompetenceTypeRoll typeRoll, RollAndKeep bonus) {
+        while (!temporaryBonus.isEmpty()) {
+            bonus = bonus.add(temporaryBonus.remove());
+        }
+        RollAndKeepRequest request = CompetenceRollContext.of(typeRoll, samurai)
+                                                          .withTemporaryBonus(bonus)
+                                                          .generateCompetenceRollRequest();
+        ComputedResult computedResult = RollAndKeepDiceSystemFactory.D10.system.rollAndKeep(request)
+                                                                               .maxValue();
+        lastResult = computedResult;
+        return computedResult;
+    }
+
+    
+    public ComputedResult applyDamage(int nd, RollAndKeep bonus) {
+        RollAndKeepRequest rollAndKeepRequest = weaponTypeDrawn.generateDamageRoll(samurai, nd, bonus);
+        ComputedResult computedResult = RollAndKeepDiceSystemFactory.D10.system.rollAndKeep(rollAndKeepRequest)
+                                                                               .maxValue();
+        opponent().wounds += computedResult.result();
+        return computedResult;
     }
 
     public ComputedResult iaijutsuAssesment() {
@@ -124,14 +141,12 @@ public class Protagonist {
         return FrappeResult.success(frappeResult, damage, difficulty);
     }
 
-    private ComputedResult applyDamage(int nd, RollAndKeep bonus) {
-        RollAndKeepRequest rollAndKeepRequest = weaponTypeDrawn.generateDamageRoll(samurai, nd, bonus);
-        ComputedResult computedResult = RollAndKeepDiceSystemFactory.D10.system.rollAndKeep(rollAndKeepRequest).maxValue();
-        opponent().wounds += computedResult.result();
-        return computedResult;
-    }
-
+    
     public String name() {
         return samurai.fullName();
+    }
+
+    public WeaponType weaponDrawn() {
+        return weaponTypeDrawn;
     }
 }

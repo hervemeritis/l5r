@@ -14,7 +14,7 @@ public class DuelResult {
     }
 
     public static DuelResult winner(Samurai samurai) {
-        return new DuelResult(samurai.family.familyName + " " + samurai.name);
+        return new DuelResult(samurai.fullName());
     }
 
     public static DuelResult tie() {

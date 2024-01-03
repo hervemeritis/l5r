@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 public class MirumotoBushiSchool implements SchoolDefintion {
     @Override
-    public String name() {
+    public String schoolName() {
         return "Mirumoto Bushi";
     }
 

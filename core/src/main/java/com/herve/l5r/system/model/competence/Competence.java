@@ -26,6 +26,10 @@ public class Competence {
         this.samurai = samurai;
     }
 
+    public Set<Emphasis> emphasis() {
+        return emphasis;
+    }
+
     public RollAndKeepRequest generateRollRequest(CompetenceRollContext context) {
         RollAndKeep rollAndKeep = generateRoll(context);
         return RollAndKeepRequest.builder()

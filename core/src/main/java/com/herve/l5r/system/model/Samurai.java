@@ -29,7 +29,7 @@ public class Samurai implements CompetenceModifier {
 
     private final Set<Avantage> avantages;
 
-    private final List<School> schools;
+    public final List<School> schools;
 
     Samurai(SamuraiBuilder builder) {
         this.family = builder.family;
@@ -75,6 +75,14 @@ public class Samurai implements CompetenceModifier {
 
     private int computeReputationFromRing() {
         return attributs.sumRing() * 10;
+    }
+
+    public Collection<Competence> competences() {
+        return competences.values();
+    }
+
+    public Set<Avantage> avantages() {
+        return avantages;
     }
 
     public ComputedResult rollInitiative() {

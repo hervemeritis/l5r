@@ -16,12 +16,12 @@ import static com.herve.l5r.system.model.competence.CompetenceName.*;
 public class KakitaBushiSchool implements SchoolDefintion {
 
     private final Set<RankSchool> ranks = Set.of(new LaVoieDeLaGrue());
-    private final Set<CompetenceName> schoolCompetence = Set.of(IAIJUSTSU, ETIQUETTE, KENJUTSU, CEREONIE_DU_THE, KYUJUTSU, SINCERITE);
+    private final Set<CompetenceName> schoolCompetence = Set.of(IAIJUSTSU, ETIQUETTE, KENJUTSU, CEREMONIE_DU_THE, KYUJUTSU, SINCERITE);
 
     private final Function<CompetenceName, Set<Emphasis>> baseEmphasis = (cpt) -> cpt.equals(IAIJUSTSU) ? Set.of(Emphasis.CONCENTRATION) : Collections.emptySet();
 
     @Override
-    public String name() {
+    public String schoolName() {
         return "Kakita Duelist Bushi";
     }
 

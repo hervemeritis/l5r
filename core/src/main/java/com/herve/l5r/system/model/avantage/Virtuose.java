@@ -14,7 +14,7 @@ public class Virtuose implements AvantageDefinition, CompetenceModifier {
 
     @Override
     public String name() {
-        return "Virtuose (12)";
+        return "Virtuose";
     }
 
     @Override

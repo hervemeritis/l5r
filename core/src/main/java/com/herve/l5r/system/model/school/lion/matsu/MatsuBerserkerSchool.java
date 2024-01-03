@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 public class MatsuBerserkerSchool implements SchoolDefintion {
     @Override
-    public String name() {
+    public String schoolName() {
         return "Matsu Berserker";
     }
 
